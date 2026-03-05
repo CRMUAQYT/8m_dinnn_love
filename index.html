@@ -1,0 +1,1043 @@
+<!doctype html>
+<html lang="kk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>8 Наурыз ❤️</title>
+
+  <style>
+    :root{
+      --bg0:#07060b;
+      --bg1:#0e0b17;
+      --border:rgba(255,255,255,.16);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.68);
+      --shadow: 0 18px 60px rgba(0,0,0,.55);
+      --radius: 22px;
+
+      --pink: rgba(255,120,180,.95);
+      --violet: rgba(170,120,255,.95);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      overflow-x:hidden;
+      background:
+        radial-gradient(1200px 700px at 20% 10%, rgba(255,120,180,.22), transparent 55%),
+        radial-gradient(900px 600px at 85% 30%, rgba(140,120,255,.22), transparent 55%),
+        radial-gradient(800px 800px at 50% 100%, rgba(120,255,210,.12), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+    }
+
+    /* subtle grain */
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+      mix-blend-mode:overlay;
+      opacity:.15;
+      z-index:0;
+    }
+
+    /* petals canvas */
+    #petals{
+      position:fixed; inset:0;
+      width:100%; height:100%;
+      pointer-events:none;
+      z-index:1;
+    }
+
+    .wrap{ position:relative; z-index:2; }
+
+    /* ===== Topbar + Vinyl ===== */
+    header.topbar{
+      position:fixed;
+      top:14px; left:0; right:0;
+      display:flex;
+      justify-content:center;
+      z-index:60;
+      pointer-events:none;
+    }
+
+    .dock{
+      pointer-events:auto;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      background:rgba(0,0,0,.35);
+      backdrop-filter: blur(14px);
+      border-radius:999px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+
+    .dock button{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      padding:8px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      transition: transform .15s ease, background .2s ease;
+      font-weight:600;
+      letter-spacing:.2px;
+      user-select:none;
+    }
+    .dock button:hover{ transform: translateY(-1px); background:rgba(255,255,255,.10); }
+    .dock button:active{ transform: translateY(0px) scale(.99); }
+
+    .dock .status{
+      font-size:12px;
+      color:var(--muted);
+      padding:0 4px;
+      white-space:nowrap;
+    }
+
+    .vinylWrap{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding-left:6px;
+      border-left:1px solid rgba(255,255,255,.12);
+      margin-left:2px;
+    }
+
+    .vinyl{
+      width:46px; height:46px;
+      border-radius:50%;
+      border:1px solid rgba(255,255,255,.18);
+      background:
+        radial-gradient(circle at 50% 50%, rgba(0,0,0,.92) 0 28%, transparent 28%),
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,.10) 0 34%, transparent 34%),
+        radial-gradient(circle at 50% 50%, rgba(0,0,0,.92) 0 52%, transparent 52%),
+        repeating-radial-gradient(circle at 50% 50%, rgba(255,255,255,.08) 0 2px, rgba(0,0,0,0) 2px 6px),
+        radial-gradient(circle at 35% 35%, rgba(255,160,210,.18), transparent 55%),
+        radial-gradient(circle at 70% 70%, rgba(170,140,255,.14), transparent 55%),
+        radial-gradient(circle at 50% 50%, rgba(0,0,0,.92), rgba(0,0,0,.82));
+      box-shadow: 0 12px 30px rgba(0,0,0,.45);
+      position:relative;
+      overflow:hidden;
+      cursor:pointer;
+      transition: transform .18s ease;
+      flex:0 0 auto;
+    }
+    .vinyl:hover{ transform: translateY(-1px); }
+    .vinyl::after{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(120px 120px at 30% 25%, rgba(255,255,255,.12), transparent 55%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .label{
+      position:absolute;
+      left:50%; top:50%;
+      width:16px; height:16px;
+      transform: translate(-50%,-50%);
+      border-radius:50%;
+      background: linear-gradient(135deg, var(--pink), var(--violet));
+      box-shadow: inset 0 0 0 3px rgba(0,0,0,.65);
+    }
+    .needle{
+      width:18px; height:18px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      display:grid; place-items:center;
+      cursor:pointer;
+      user-select:none;
+    }
+
+    .spin{ animation: spin 1.15s linear infinite; }
+    @keyframes spin{ to{ transform: rotate(360deg); } }
+
+    /* ===== Layout ===== */
+    section{
+      min-height:100vh;
+      padding: clamp(72px, 8vh, 92px) 18px 44px;
+      display:grid;
+      place-items:center;
+    }
+    .container{ width:min(1050px, 100%); }
+
+    .card{
+      border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    /* ===== HERO ===== */
+    .hero{
+      padding: 26px;
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+      align-items:center;
+      position:relative;
+    }
+    .hero::after{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(700px 280px at 15% 15%, rgba(255,160,210,.18), transparent 60%),
+        radial-gradient(600px 280px at 85% 25%, rgba(170,140,255,.18), transparent 60%);
+      pointer-events:none;
+      z-index:0;
+    }
+    .hero > *{ position:relative; z-index:1; }
+
+    .title{
+      font-size: clamp(30px, 5vw, 54px);
+      line-height:1.02;
+      margin: 0 0 10px;
+      letter-spacing:-.6px;
+    }
+    .subtitle{
+      margin: 0 0 18px;
+      color:var(--muted);
+      font-size: clamp(14px, 1.8vw, 18px);
+      line-height:1.5;
+    }
+    .ctaRow{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+
+    .primary{
+      border:none;
+      background: linear-gradient(135deg, var(--pink), var(--violet));
+      color:#08060e;
+      padding: 12px 16px;
+      border-radius: 14px;
+      cursor:pointer;
+      font-weight:900;
+      letter-spacing:.2px;
+      box-shadow: 0 12px 30px rgba(255,120,180,.22);
+      transition: transform .16s ease, filter .2s ease;
+    }
+    .primary:hover{ transform: translateY(-2px); filter:saturate(1.1); }
+    .primary:active{ transform: translateY(0px) scale(.99); }
+
+    .ghost{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      padding: 12px 16px;
+      border-radius: 14px;
+      cursor:pointer;
+      font-weight:800;
+      transition: transform .16s ease, background .2s ease;
+    }
+    .ghost:hover{ transform: translateY(-2px); background:rgba(255,255,255,.10); }
+
+    .avatarWrap{ display:grid; place-items:center; padding: 14px; }
+    .avatar{
+      width:min(320px, 72vw);
+      aspect-ratio: 1/1;
+      border-radius: 50%;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 18px 70px rgba(0,0,0,.55);
+      position:relative;
+      isolation:isolate;
+    }
+    .avatar::before{
+      content:"";
+      position:absolute; inset:-40%;
+      background: radial-gradient(circle at 35% 35%, rgba(255,180,220,.45), transparent 55%),
+                  radial-gradient(circle at 70% 65%, rgba(160,140,255,.35), transparent 55%);
+      filter: blur(10px);
+      animation: glow 4.5s ease-in-out infinite alternate;
+      z-index:0;
+    }
+    @keyframes glow{
+      from{ transform: rotate(0deg) scale(1); opacity:.75; }
+      to{ transform: rotate(10deg) scale(1.05); opacity:.95; }
+    }
+    .avatar img{
+      position:relative; z-index:1;
+      width:100%; height:100%;
+      object-fit:cover;
+      transform: scale(1.02);
+    }
+
+    .hint{ margin-top:14px; color:rgba(255,255,255,.55); font-size:12px; }
+
+    /* ===== Section titles ===== */
+    .sectionTitle{
+      font-size: clamp(22px, 3.5vw, 36px);
+      margin: 0 0 10px;
+      letter-spacing:-.4px;
+    }
+    .sectionSub{ margin:0 0 18px; color:var(--muted); line-height:1.5; }
+
+    /* ===== Film-strip gallery ===== */
+    .galleryCard{ padding: 18px; }
+    .galleryTop{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom: 12px;
+    }
+    .controls{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .iconBtn{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      width:42px; height:42px;
+      display:grid;
+      place-items:center;
+      border-radius: 14px;
+      cursor:pointer;
+      transition: transform .15s ease, background .2s ease;
+      user-select:none;
+    }
+    .iconBtn:hover{ transform: translateY(-1px); background:rgba(255,255,255,.10); }
+
+    .toggle{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:800;
+      transition: transform .15s ease, background .2s ease;
+      user-select:none;
+    }
+    .toggle:hover{ transform: translateY(-1px); background:rgba(255,255,255,.10); }
+
+    .film{
+      position:relative;
+      border-radius: 18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.30);
+      box-shadow: 0 14px 55px rgba(0,0,0,.55);
+    }
+
+    /* film perforation top/bottom */
+    .film::before,
+    .film::after{
+      content:"";
+      position:absolute;
+      left:0; right:0;
+      height: 34px;
+      z-index:3;
+      background: linear-gradient(180deg, rgba(0,0,0,.65), rgba(0,0,0,.10));
+      pointer-events:none;
+    }
+    .film::before{ top:0; }
+    .film::after{ bottom:0; transform: rotate(180deg); }
+
+    .holes{
+      position:absolute;
+      left:0; right:0;
+      height: 34px;
+      z-index:4;
+      pointer-events:none;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,.22) 0 2px, rgba(0,0,0,0) 3px),
+        radial-gradient(circle, rgba(0,0,0,.65) 0 6px, rgba(0,0,0,0) 7px);
+      background-size: 42px 34px, 42px 34px;
+      background-position: 10px 0, 10px 0;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.5));
+      opacity:.9;
+    }
+    .holes.top{ top:0; }
+    .holes.bot{ bottom:0; }
+
+    .filmVignette{
+      position:absolute; inset:0;
+      pointer-events:none;
+      background: linear-gradient(90deg, rgba(0,0,0,.60), transparent 22%, transparent 78%, rgba(0,0,0,.60));
+      z-index:5;
+    }
+
+    .stripTrack{
+      display:flex;
+      gap:14px;
+      padding: 42px 14px; /* space for holes */
+      overflow:auto;
+      scroll-snap-type:x mandatory;
+      scroll-behavior:smooth;
+      scrollbar-width:none;
+    }
+    .stripTrack::-webkit-scrollbar{ display:none; }
+
+    .frame{
+      scroll-snap-align:center;
+      flex: 0 0 min(78vw, 720px);
+      aspect-ratio: 16 / 9;
+      border-radius: 16px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.04);
+      position:relative;
+      box-shadow: 0 12px 40px rgba(0,0,0,.45);
+      transform: translateZ(0);
+    }
+
+    .frame::before{
+      content:"";
+      position:absolute; inset:0;
+      pointer-events:none;
+      border: 2px solid rgba(0,0,0,.35);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
+      border-radius: 16px;
+      z-index:2;
+    }
+
+    .frame img{
+      width:100%; height:100%;
+      object-fit:cover;
+      transform: scale(1.01);
+      filter:saturate(1.06) contrast(1.02);
+    }
+
+    .frame .cap{
+      position:absolute;
+      left:12px; right:12px; bottom:12px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(0,0,0,.35);
+      backdrop-filter: blur(10px);
+      font-size: 13px;
+      color: rgba(255,255,255,.82);
+      z-index:3;
+    }
+
+    /* ===== Love flip cards ===== */
+    .loveCard{ padding: 18px; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 980px){
+      .hero{ grid-template-columns: 1fr; }
+      .grid{ grid-template-columns: repeat(2, 1fr); }
+      .galleryTop{ flex-direction:column; align-items:flex-start; }
+      .controls{ justify-content:flex-start; }
+    }
+    @media (max-width: 420px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .flip{
+      height: 150px;
+      perspective: 1000px;
+      cursor:pointer;
+      user-select:none;
+    }
+
+    .flipInner{
+      position:relative;
+      width:100%; height:100%;
+      transform-style: preserve-3d;
+      transition: transform .7s cubic-bezier(.2,.9,.2,1);
+    }
+
+    .flip.isFlipped .flipInner{
+      transform: rotateY(180deg);
+    }
+
+    .face{
+      position:absolute; inset:0;
+      backface-visibility:hidden;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.16);
+      overflow:hidden;
+      box-shadow: 0 12px 34px rgba(0,0,0,.35);
+      background: rgba(255,255,255,.06);
+    }
+
+    .face::before{
+      content:"";
+      position:absolute; inset:-40%;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,160,210,.22), transparent 55%),
+        radial-gradient(circle at 70% 70%, rgba(170,140,255,.18), transparent 55%);
+      filter: blur(10px);
+      opacity:.85;
+      transition: opacity .2s ease;
+    }
+
+    .frontContent, .backContent{
+      position:relative;
+      z-index:1;
+      padding: 16px;
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:8px;
+    }
+
+    .badge{
+      width:34px; height:34px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.25);
+      display:grid;
+      place-items:center;
+      font-weight:900;
+    }
+
+    .frontTitle{
+      font-weight:900;
+      letter-spacing:-.2px;
+      line-height:1.2;
+      font-size: 16px;
+    }
+
+    .frontSub{
+      color:rgba(255,255,255,.72);
+      font-size: 13px;
+      line-height:1.35;
+    }
+
+    .back{
+      transform: rotateY(180deg);
+      background: rgba(255,255,255,.07);
+    }
+
+    .backTitle{
+      font-weight:900;
+      letter-spacing:-.2px;
+      font-size: 15px;
+    }
+    .backText{
+      color:rgba(255,255,255,.80);
+      font-size: 13px;
+      line-height:1.45;
+    }
+
+    .tapHint{
+      margin-top: 8px;
+      font-size: 12px;
+      color: rgba(255,255,255,.55);
+    }
+
+    /* ===== Modal ===== */
+    .modal{
+      position:fixed; inset:0;
+      display:none;
+      place-items:center;
+      padding: 18px;
+      z-index:80;
+      background: rgba(0,0,0,.62);
+      backdrop-filter: blur(10px);
+    }
+    .modal.show{ display:grid; }
+    .modalBox{
+      width: min(720px, 100%);
+      border-radius: 22px;
+      border:1px solid rgba(255,255,255,.18);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+      box-shadow: 0 22px 80px rgba(0,0,0,.6);
+      overflow:hidden;
+      transform: translateY(10px) scale(.98);
+      opacity:0;
+      animation: pop .18s ease forwards;
+    }
+    @keyframes pop{ to{ transform: translateY(0) scale(1); opacity:1; } }
+    .modalHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.12);
+    }
+    .modalHead .h{ font-weight:900; letter-spacing:-.2px; }
+    .close{
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      width:40px; height:40px;
+      border-radius: 14px;
+      cursor:pointer;
+      display:grid; place-items:center;
+    }
+    .modalBody{
+      padding: 16px;
+      color: rgba(255,255,255,.84);
+      line-height:1.55;
+      font-size: 16px;
+      white-space: pre-wrap;
+    }
+
+    /* helper */
+    .fadeIn{
+      opacity:0;
+      transform: translateY(8px);
+      animation: f .45s ease forwards;
+    }
+    @keyframes f{ to{ opacity:1; transform: translateY(0); } }
+  </style>
+</head>
+
+<body>
+  <canvas id="petals"></canvas>
+
+  <!-- МУЗЫКА: path-ты ауыстыр -->
+  <audio id="bgm" loop preload="auto">
+    <source src="assets/oursong.mp3" type="audio/mpeg" />
+  </audio>
+
+  <header class="topbar">
+    <div class="dock">
+      <button id="go1">1</button>
+      <button id="go2">2</button>
+      <button id="go3">3</button>
+
+      <div class="vinylWrap" title="Музыка">
+        <div id="vinyl" class="vinyl" aria-label="Vinyl">
+          <div class="label"></div>
+        </div>
+        <div class="needle" id="muteBtn" title="Mute / Unmute">🔈</div>
+      </div>
+
+      <span class="status" id="musicStatus">Музыка: Off</span>
+      <button id="musicToggle">Play</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <!-- 1 БЕТ -->
+    <section id="page1">
+      <div class="container card hero">
+        <div>
+          <h1 class="title fadeIn" style="animation-delay:.02s">8 наурыз құтты болсын, жаным ❤️</h1>
+          <p class="subtitle fadeIn" style="animation-delay:.08s">
+            Сені шынайы жақсы көретін - Саят.  
+            
+          </p>
+
+          <div class="ctaRow fadeIn" style="animation-delay:.14s">
+            <button class="primary" id="startBtn">Бастау ✨</button>
+            <button class="ghost" id="scrollTo2">Сәттерге өту →</button>
+          </div>
+
+          
+        </div>
+
+        <div class="avatarWrap">
+          <div class="avatar fadeIn" style="animation-delay:.10s">
+            <!-- АВА: path-ты ауыстыр -->
+            <img src="assets/her-avatar.jpg" alt="Ава" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 БЕТ -->
+    <section id="page2">
+      <div class="container card galleryCard">
+        <div class="galleryTop">
+          <div>
+            <h2 class="sectionTitle">Бақытты  сәттер 📸</h2>
+            
+          </div>
+
+          <div class="controls">
+            <button class="iconBtn" id="prevBtn" title="Алдыңғы">←</button>
+            <button class="iconBtn" id="nextBtn" title="Келесі">→</button>
+            <button class="toggle" id="autoToggle">Auto: On</button>
+          </div>
+        </div>
+
+        <div class="film">
+          <div class="holes top"></div>
+          <div class="holes bot"></div>
+          <div class="filmVignette"></div>
+
+          <div class="stripTrack" id="track">
+            <!-- СУРЕТТЕР: path-ты ауыстыр -->
+            <div class="frame">
+              <img src="assets/1.jpg" alt="moment 1" />
+              
+            </div>
+            <div class="frame">
+              <img src="assets/m2.jpg" alt="moment 2" />
+             
+            </div>
+            <div class="frame">
+              <img src="assets/m3.jpg" alt="moment 3" />
+             
+            </div>
+            <div class="frame">
+              <img src="assets/m4.jpg" alt="moment 4" />
+             
+            </div>
+            <div class="frame">
+              <img src="assets/m5.jpg" alt="moment 5" />
+         
+            </div>
+            <div class="frame">
+              <img src="assets/m6.jpg" alt="moment 5" />
+             
+            </div>
+            <div class="frame">
+              <img src="assets/m8.jpg" alt="moment 5" />
+         
+            </div>
+          </div>
+        </div>
+
+        
+      </div>
+    </section>
+
+    <!-- 3 БЕТ -->
+    <section id="page3">
+      <div class="container card loveCard">
+        <h2 class="sectionTitle">Мен сені жақсы көрем… өйткені 💗</h2>
+      
+
+        <div class="grid" id="reasonsGrid"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal" id="modal">
+    <div class="modalBox" role="dialog" aria-modal="true">
+      <div class="modalHead">
+        <div class="h" id="modalTitle">❤️</div>
+        <button class="close" id="modalClose" aria-label="Close">✕</button>
+      </div>
+      <div class="modalBody" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    // ======= REASONS (өзгерте бер) =======
+    const REASONS = [
+      { title: "Открытка #1", short: "Сенің күлкің", text: "Сен күлгенде, әлем бірден жылы болып кетеді." },
+      { title: "Открытка #2", short: "Мейірімің", text: "Қандай ситуация болса да, сенің жүрегің жұмсақ." },
+      { title: "Открытка #3", short: "Қолдауың", text: "Маған сенгенің — күш береді." },
+      { title: "Открытка #4", short: "Ақылдылығың", text: "Сенің ойың терең, сөзің мәнді." },
+      { title: "Открытка #5", short: "Шынайылығың", text: "Жалған емес — нағыз сен." },
+      { title: "Открытка #6", short: "Әсемдігің", text: "Сенің нәзіктігің — ерекше." },
+      { title: "Открытка #7", short: "Бірге болған сәттер", text: "Біздегі естеліктер — ең қымбат." },
+      { title: "Открытка #8", short: "Менің бақытым", text: "Мен үшін сен — үй сияқты тыныштық." },
+    ];
+
+    // ======= NAV =======
+    const page1 = document.getElementById('page1');
+    const page2 = document.getElementById('page2');
+    const page3 = document.getElementById('page3');
+
+    function scrollToEl(el){ el.scrollIntoView({behavior:'smooth', block:'start'}); }
+
+    document.getElementById('go1').addEventListener('click', () => scrollToEl(page1));
+    document.getElementById('go2').addEventListener('click', () => scrollToEl(page2));
+    document.getElementById('go3').addEventListener('click', () => scrollToEl(page3));
+    document.getElementById('scrollTo2').addEventListener('click', () => scrollToEl(page2));
+
+    // ======= MUSIC + VINYL UI =======
+    const bgm = document.getElementById('bgm');
+    const musicToggle = document.getElementById('musicToggle');
+    const musicStatus = document.getElementById('musicStatus');
+    const vinyl = document.getElementById('vinyl');
+    const muteBtn = document.getElementById('muteBtn');
+
+    function setMusicUI(isOn){
+      musicStatus.textContent = "Музыка: " + (isOn ? "On" : "Off");
+      musicToggle.textContent = isOn ? "Pause" : "Play";
+      if (isOn) vinyl.classList.add('spin'); else vinyl.classList.remove('spin');
+    }
+
+    async function playMusic(){
+      try{
+        await bgm.play();
+        setMusicUI(true);
+      }catch(e){
+        setMusicUI(false);
+      }
+    }
+    function pauseMusic(){
+      bgm.pause();
+      setMusicUI(false);
+    }
+    function toggleMusic(){
+      if (bgm.paused) playMusic();
+      else pauseMusic();
+    }
+    musicToggle.addEventListener('click', toggleMusic);
+    vinyl.addEventListener('click', toggleMusic);
+
+    muteBtn.addEventListener('click', () => {
+      bgm.muted = !bgm.muted;
+      muteBtn.textContent = bgm.muted ? "🔇" : "🔈";
+    });
+
+    // ======= START =======
+    const startBtn = document.getElementById('startBtn');
+    startBtn.addEventListener('click', async () => {
+      burstPetals(52);
+      await playMusic();
+      scrollToEl(page2);
+    });
+
+    // ======= GALLERY (FIXED: no section jumping) =======
+    const track = document.getElementById('track');
+    const frames = Array.from(track.querySelectorAll('.frame'));
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const autoToggle = document.getElementById('autoToggle');
+
+    let autoOn = true;
+    let autoTimer = null;
+
+    function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
+
+    function frameCenterLeft(frame){
+      const target = frame.offsetLeft - (track.clientWidth - frame.clientWidth) / 2;
+      const maxLeft = track.scrollWidth - track.clientWidth;
+      return clamp(target, 0, Math.max(0, maxLeft));
+    }
+
+    function scrollToFrame(i, smooth=true){
+      if (!frames.length) return;
+      const idx = (i + frames.length) % frames.length;
+      track.scrollTo({ left: frameCenterLeft(frames[idx]), behavior: smooth ? 'smooth' : 'auto' });
+    }
+
+    function currentIndex(){
+      if (!frames.length) return 0;
+      const center = track.scrollLeft + track.clientWidth / 2;
+      let best = 0, bestDist = Infinity;
+      for (let i = 0; i < frames.length; i++){
+        const f = frames[i];
+        const fCenter = f.offsetLeft + f.clientWidth / 2;
+        const d = Math.abs(fCenter - center);
+        if (d < bestDist){ bestDist = d; best = i; }
+      }
+      return best;
+    }
+
+    prevBtn.addEventListener('click', () => scrollToFrame(currentIndex() - 1));
+    nextBtn.addEventListener('click', () => scrollToFrame(currentIndex() + 1));
+
+    function startAuto(){
+      stopAuto();
+      autoTimer = setInterval(() => {
+        scrollToFrame(currentIndex() + 1);
+      }, 3800);
+    }
+    function stopAuto(){
+      if (autoTimer) clearInterval(autoTimer);
+      autoTimer = null;
+    }
+
+    autoToggle.addEventListener('click', () => {
+      autoOn = !autoOn;
+      autoToggle.textContent = "Auto: " + (autoOn ? "On" : "Off");
+      if (autoOn) startAuto(); else stopAuto();
+    });
+
+    // pause auto on interactions
+    let resumeTimeout = null;
+    function pauseThenResume(){
+      if (!autoOn) return;
+      stopAuto();
+      if (resumeTimeout) clearTimeout(resumeTimeout);
+      resumeTimeout = setTimeout(() => startAuto(), 2000);
+    }
+
+    // IMPORTANT: wheel -> horizontal + prevent vertical page scroll
+    track.addEventListener('wheel', (e) => {
+      const dominantVertical = Math.abs(e.deltaY) > Math.abs(e.deltaX);
+      if (dominantVertical){
+        track.scrollLeft += e.deltaY;
+        e.preventDefault(); // stops page jumping between sections
+      }
+      pauseThenResume();
+    }, { passive: false });
+
+    track.addEventListener('touchstart', pauseThenResume, { passive:true });
+    track.addEventListener('mousedown', pauseThenResume);
+
+    // init
+    scrollToFrame(0, false);
+    startAuto();
+
+    // ======= FLIP CARDS + MODAL =======
+    const grid = document.getElementById('reasonsGrid');
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    const modalClose = document.getElementById('modalClose');
+
+    function openModal(item){
+      modalTitle.textContent = item.title + " — " + item.short;
+      modalBody.textContent = item.text;
+      modal.classList.add('show');
+    }
+    function closeModal(){ modal.classList.remove('show'); }
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    function escapeHtml(s){
+      return String(s)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;");
+    }
+
+    REASONS.forEach((r, idx) => {
+      const card = document.createElement('div');
+      card.className = 'flip';
+      card.innerHTML = `
+        <div class="flipInner">
+          <div class="face front">
+            <div class="frontContent">
+              <div class="badge">${idx+1}</div>
+              <div class="frontTitle">${r.short}</div>
+              <div class="frontSub">Бас — айналады ✨</div>
+            </div>
+          </div>
+          <div class="face back">
+            <div class="backContent">
+              <div class="backTitle">Неге?</div>
+              <div class="backText">${escapeHtml(r.text)}</div>
+              <div class="frontSub">Тағы бассаң — толық оқисың 💗</div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // 1-ші басқанда flip, flipped кезде тағы бассаң modal
+      card.addEventListener('click', () => {
+        burstPetals(16);
+        const flipped = card.classList.contains('isFlipped');
+        if (!flipped) card.classList.add('isFlipped');
+        else openModal(r);
+      });
+
+      // оң жақ click (немесе long press) -> жабу
+      card.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        card.classList.remove('isFlipped');
+      });
+
+      grid.appendChild(card);
+    });
+
+    // ======= PETALS CANVAS =======
+    const canvas = document.getElementById('petals');
+    const ctx = canvas.getContext('2d');
+
+    let W=0,H=0, DPR=1;
+    function resize(){
+      DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      W = canvas.width = Math.floor(window.innerWidth * DPR);
+      H = canvas.height = Math.floor(window.innerHeight * DPR);
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    const petals = [];
+    const PETAL_COLORS = [
+      "rgba(255,170,210,.95)",
+      "rgba(255,200,230,.92)",
+      "rgba(210,185,255,.92)",
+      "rgba(255,140,190,.92)"
+    ];
+
+    function rand(min,max){ return Math.random()*(max-min)+min; }
+
+    function spawnPetal(x = rand(0, W), y = -50*DPR, burst=false){
+      const s = burst ? rand(10, 18) : rand(8, 14);
+      petals.push({
+        x, y,
+        vx: rand(-0.35, 0.35) * DPR * (burst? 3.2 : 1.2),
+        vy: rand(0.6, 1.6) * DPR * (burst? 2.2 : 1.0),
+        r: s * DPR,
+        rot: rand(0, Math.PI*2),
+        vr: rand(-0.06, 0.06),
+        wob: rand(0.4, 1.2),
+        phase: rand(0, Math.PI*2),
+        color: PETAL_COLORS[(Math.random()*PETAL_COLORS.length)|0],
+        life: burst ? rand(170, 240) : rand(260, 430)
+      });
+    }
+
+    let spawnAcc = 0;
+    function tick(){
+      ctx.clearRect(0,0,W,H);
+
+      spawnAcc += 1;
+      if (spawnAcc % 6 === 0) spawnPetal();
+
+      for (let i=petals.length-1;i>=0;i--){
+        const p = petals[i];
+        p.life -= 1;
+
+        p.phase += 0.02 * p.wob;
+        const sway = Math.sin(p.phase) * 0.6 * DPR;
+
+        p.x += p.vx + sway;
+        p.y += p.vy;
+        p.rot += p.vr;
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.globalAlpha = Math.max(0, Math.min(1, p.life / 220));
+        ctx.fillStyle = p.color;
+
+        ctx.beginPath();
+        const rx = p.r * 0.75;
+        const ry = p.r;
+        ctx.moveTo(0, -ry);
+        ctx.quadraticCurveTo(rx, -ry*0.2, 0, ry);
+        ctx.quadraticCurveTo(-rx, -ry*0.2, 0, -ry);
+        ctx.fill();
+
+        ctx.globalAlpha *= 0.35;
+        ctx.fillStyle = "rgba(255,255,255,.85)";
+        ctx.beginPath();
+        ctx.ellipse(-rx*0.12, -ry*0.15, rx*0.18, ry*0.32, 0, 0, Math.PI*2);
+        ctx.fill();
+        ctx.restore();
+
+        if (p.y > H + 80*DPR || p.x < -120*DPR || p.x > W + 120*DPR || p.life <= 0){
+          petals.splice(i,1);
+        }
+      }
+
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    function burstPetals(count=24){
+      const cx = W*0.5, cy = H*0.28;
+      for(let i=0;i<count;i++){
+        spawnPetal(cx + rand(-90,90)*DPR, cy + rand(-40,40)*DPR, true);
+      }
+    }
+  </script>
+</body>
+</html>
